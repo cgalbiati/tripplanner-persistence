@@ -1,12 +1,14 @@
 var Day;
+ 
 
 $(document).ready(function () {
 
 	Day = function (data) {
-		this.hotel = null;
+		this.hotel = '';
 		this.restaurants = [];
 		this.thingsToDo = [];
-		this.number = days.push(this);
+		this.number = days.length + 1;
+		if (firstLoad) return 
 		this.buildButton()
 			.drawButton();
 	}
@@ -74,6 +76,7 @@ $(document).ready(function () {
 			url: '/days/add-new-day',
 			success: function(data) {
 				var newDay = new Day(data);
+				days.push(newDay)
 				console.log('newDay: ', newDay)
 
 			},
@@ -95,6 +98,8 @@ $(document).ready(function () {
 			}
 		})
 	})
+
+
 
 });
 
