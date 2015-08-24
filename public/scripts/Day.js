@@ -1,12 +1,11 @@
 var Day;
 
 $(document).ready(function () {
-	Day = function () {
+	Day = function (data) {
 		this.hotel = null;
 		this.restaurants = [];
 		this.thingsToDo = [];
 		this.number = days.push(this);
-
 		this.buildButton()
 			.drawButton();
 	}
@@ -67,7 +66,20 @@ $(document).ready(function () {
 	};
 
 	$('#add-day').on('click', function () {
-		new Day();
+
+		// console.log(newDay);
+		$.ajax({
+			method: 'POST',
+			url: '/days/add-new-day',
+			success: function(data) {
+				var newDay = new Day(data);
+				console.log('newDay: ', newDay)
+
+			},
+			error: function(err) {
+				console.error(err);
+			}
+		});
 	});
 
 	$('#day-title > .remove').on('click', deleteCurrentDay);

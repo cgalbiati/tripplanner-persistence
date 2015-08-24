@@ -66,22 +66,41 @@ router.post('/add-new-day', function(req, res, next) {
 		models.Trip.update({}, {$push: {'days': day}}, function(err, data){
 			if (err) next(err);
 			else {
-				models.Trip.find().exec()
-				.then(function(trips){
-					console.log('newly updated', trips)
-				}).then(function(){
+				models.Trip
+				.find()
+				.exec()
+				.then(function(){
 					res.json(data);
 				})
 			}
 		});
 	});
-	
+
 });
 
+//Trip schema
+	//trip: {}
+		// trip.days: []
 router.delete('/:id', function(req, res, next) {
 	//find day based on num (id)
-	//remove it from db and from ui
-	//
+	models.Trip.find({})
+	.then(function(arr) {
+		arr[0].days = arr[0].days.splice(req.params.id-1, 1);
+		console.log(arr[0].days);
+		return arr[0].days;
+	})
+	.then(function(newDaysArr) {
+		models.Trip.update({}, {
+			days: newDaysArr
+		})
+	})
+	.then(function() {
+		res.send();
+	})
+	// .then(function(newDaysArr) {
+	// 	console.log(newDaysArr);
+	// })
+	.catch(next)
 })
 
 module.exports = router;
