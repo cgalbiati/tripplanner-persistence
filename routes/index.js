@@ -34,14 +34,23 @@ router.get('/',
 	},
 	function (req, res, next) {
 		// all the data attached to res.locals will now be passed to the index template
-		models.Trip.find({}).then(function(trips) {
+		// var newDay = new models.Day();
+
+
+	models.Trip.find({})
+		.then(function(trips) {
 			console.log("trips before " , trips)
-			if (!trips.length) models.Trip.create({}).then(function(trip){
-			 console.log("trip created " , trip)
-			})
-		}).then(function(){
+			if (!trips.length) {
+				return models.Day.create({})
+				.then(function(newDay) {
+					models.Trip.create({days: [newDay]});
+				})
+			}
+		})
+		.then(function(){
 			res.render('index');
-		}).catch(next);
+		})
+		.catch(next);
 		
 	});
 

@@ -82,5 +82,21 @@ $(document).ready(function () {
 		});
 	});
 
-	$('#day-title > .remove').on('click', deleteCurrentDay);
+	$('#day-title > .remove').on('click', function () {
+		var dayNum = $(this).siblings('span').html().split(' ')[1];
+		console.log(typeof dayNum)
+		$.ajax ({
+			method: 'DELETE',
+			url: '/days/' + dayNum,
+			success: deleteCurrentDay,
+			error: function(err){
+				console.error(err);
+			}
+		})
+	})
+
 });
+
+
+
+

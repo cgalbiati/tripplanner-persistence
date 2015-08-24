@@ -81,25 +81,20 @@ router.post('/add-new-day', function(req, res, next) {
 //Trip schema
 	//trip: {}
 		// trip.days: []
-router.delete('/:id', function(req, res, next) {
+router.delete('/:dayNum', function(req, res, next) {
 	//find day based on num (id)
 	models.Trip.find({})
 	.then(function(arr) {
-		arr[0].days = arr[0].days.splice(req.params.id-1, 1);
+		arr[0].days.splice(req.params.dayNum-1, 1);
 		console.log(arr[0].days);
-		return arr[0].days;
+		return arr[0];
 	})
-	.then(function(newDaysArr) {
-		models.Trip.update({}, {
-			days: newDaysArr
-		})
+	.then(function(trip) {
+		return models.Trip.findByIdAndUpdate(trip._id, trip).exec()
 	})
-	.then(function() {
-		res.send();
+	.then(function(trip) {
+		res.send(trip);
 	})
-	// .then(function(newDaysArr) {
-	// 	console.log(newDaysArr);
-	// })
 	.catch(next)
 })
 
