@@ -1,5 +1,5 @@
 var Day;
- 
+
 
 $(document).ready(function () {
 
@@ -8,7 +8,7 @@ $(document).ready(function () {
 		this.restaurants = [];
 		this.thingsToDo = [];
 		this.number = days.length + 1;
-		if (firstLoad) return 
+		if (firstLoad) return
 		this.buildButton()
 			.drawButton();
 	}
@@ -77,7 +77,7 @@ $(document).ready(function () {
 			success: function(data) {
 				var newDay = new Day(data);
 				days.push(newDay)
-				console.log('newDay: ', newDay)
+				// console.log('newDay: ', newDay)
 
 			},
 			error: function(err) {
@@ -88,7 +88,7 @@ $(document).ready(function () {
 
 	$('#day-title > .remove').on('click', function () {
 		var dayNum = $(this).siblings('span').html().split(' ')[1];
-		console.log(typeof dayNum)
+		// console.log(typeof dayNum)
 		$.ajax ({
 			method: 'DELETE',
 			url: '/days/' + dayNum,

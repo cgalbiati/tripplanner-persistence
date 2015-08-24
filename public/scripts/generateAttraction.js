@@ -3,10 +3,10 @@ var generateAttraction;
 function getType() {
 
 	var type = $(this).siblings('h4').html();
-	if (type === "Hotels") type = 'hotel'
-	else if (type === "Restaurants") type = 'restaurants' 
-	else type = 'thingsToDo'
-		return type;
+	if (type === "Hotels") type = 'hotel';
+	else if (type === "Restaurants") type = 'restaurants';
+	else type = 'activities';
+	return type;
 }
 
 $(document).ready(function () {
@@ -26,7 +26,7 @@ $(document).ready(function () {
 					console.error(this.url)
 				}
 			})
-			
+
 		});
 		config.all.forEach(function (attraction) {
 			var $option = $('<option></option>').text(attraction.name).data(attraction);
