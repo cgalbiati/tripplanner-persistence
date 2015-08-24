@@ -3,6 +3,7 @@ var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 
 var models = require('../models');
+router.use('/days', require('./api/days'));
 
 router.get('/',
 	function (req, res, next) {
@@ -39,7 +40,6 @@ router.get('/',
 
 	models.Trip.find({})
 		.then(function(trips) {
-			console.log("trips before " , trips)
 			if (!trips.length) {
 				return models.Day.create({})
 				.then(function(newDay) {
@@ -51,7 +51,7 @@ router.get('/',
 			res.render('index');
 		})
 		.catch(next);
-		
+
 	});
 
 router.get('/hotels', function () {

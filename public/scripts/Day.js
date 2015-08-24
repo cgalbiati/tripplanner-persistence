@@ -1,6 +1,7 @@
 var Day;
 
 $(document).ready(function () {
+
 	Day = function (data) {
 		this.hotel = null;
 		this.restaurants = [];

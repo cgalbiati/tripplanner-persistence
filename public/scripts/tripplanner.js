@@ -7,7 +7,29 @@ function eachKeyValue (obj, onEach) {
 var days, currentDay;
 
 $(document).ready(function () {
-	days = [];
-	currentDay = new Day();
-	currentDay.$button.addClass('current-day');
+	// $.get('/days', function(daysArr) {
+	// 	console.log('daysArr', daysArr);
+	// 	days = daysArr;
+	// 	currentDay = days[0];
+	// 	console.log('days', days);
+	// 	currentDay.$button.addClass('current-day');
+	// }, function(err) {
+	// 	console.error(err);
+	// })
+
+	$.ajax({
+		method: 'GET',
+		url: '/days',
+		success: function(daysArr) {
+			console.log(daysArr);
+			days = daysArr;
+			currentDay = days[0];
+			console.log(currentDay);
+			currentDay.$button.addClass('current-day');
+		},
+		error: function(err) {
+			console.error(err);
+		}
+	})
+
 });

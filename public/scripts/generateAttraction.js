@@ -50,11 +50,12 @@ $(document).ready(function () {
 				});
 				return this;
 			},
-			
+
 			drawItineraryItem: function () {
 				config.$listGroup.append(this.$itineraryItem);
 				return this;
 			}
 		};
 	}
+
 });

@@ -6,8 +6,9 @@ var models = require('../../models');
 router.get('/', function(req, res, next) {
 	models.Trip.find({})
 	.exec()
-	.then(function(days) {
-		res.json(days)
+	.then(function(tripArr) {
+		console.log('this is tripArr[0].days', tripArr[0].days);
+		res.send(tripArr[0].days)
 	})
 	.catch(next)
 })
@@ -86,7 +87,6 @@ router.delete('/:dayNum', function(req, res, next) {
 	models.Trip.find({})
 	.then(function(arr) {
 		arr[0].days.splice(req.params.dayNum-1, 1);
-		console.log(arr[0].days);
 		return arr[0];
 	})
 	.then(function(trip) {
