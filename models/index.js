@@ -37,11 +37,15 @@ var daySchema = new mongoose.Schema({
 	activities: [{type: mongoose.Schema.Types.ObjectId, ref: 'ThingToDo'}]
 })
 
+var tripSchema = new mongoose.Schema({
+	days: [daySchema]
+})
 
 module.exports = {
 	Place: mongoose.model('Place', placeSchema),
 	Hotel: mongoose.model('Hotel', hotelSchema),
 	ThingToDo: mongoose.model('ThingToDo', thingToDoSchema),
 	Restaurant: mongoose.model('Restaurant', restaurantSchema),
-	Day: mongoose.model('Day', daySchema)
+	Day: mongoose.model('Day', daySchema),
+	Trip: mongoose.model('Trip', tripSchema)
 }

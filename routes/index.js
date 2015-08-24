@@ -1,4 +1,6 @@
 var router = require('express').Router();
+var mongoose = require('mongoose');
+mongoose.Promise = require('bluebird');
 
 var models = require('../models');
 
@@ -30,9 +32,17 @@ router.get('/',
 				next();
 			});
 	},
-	function (req, res) {
+	function (req, res, next) {
 		// all the data attached to res.locals will now be passed to the index template
-		res.render('index');
+		models.Trip.find({}).then(function(trips) {
+			console.log("trips before " , trips)
+			if (!trips.length) models.Trip.create({}).then(function(trip){
+			 console.log("trip created " , trip)
+			})
+		}).then(function(){
+			res.render('index');
+		}).catch(next);
+		
 	});
 
 router.get('/hotels', function () {
