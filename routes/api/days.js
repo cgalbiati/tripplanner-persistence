@@ -2,35 +2,73 @@ var router = require('express').Router();
 var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 var models = require('../../models');
+// var Promise = require('bluebird');
+
 
 
 //populate testing
+// router.get('/', function(req, res, next) {
+// 	// var promiseDays = []
+// 	console.log('yo');
+// 	console.log(models.Trip.deepPopulate);
+// 	models.Trip.deepPopulate('days.restaurants', function(err, trip) {
+// 		if (err) return next(err);
+// 		console.log(trip)
+// 		res.end()
+// 	});
+// })
+
 router.get('/', function(req, res, next) {
-	models.Trip.findOne({})
-	.then(function(trip) {
-		var promiseDays = [];
-		trip.days.forEach(function(day) {
-			// console.log('wots this', day._id)
-			console.log('before ze promise', day)
-			promiseDays.push(models.Day.findOne({
-				_id: day._id
+	console.log('yo');
+	var trip = models.Trip.findOne({}).exec();
+	trip.then(function(foundTrip) {
+		foundTrip.days.forEach(function(day,index) {
+			var restaurantArr = []; 
+			day.restaurants.forEach(function(restaurant) {
+				restaurantArr.push(models.Restaurant.findById(restaurant).exec());
+				// .then(function(restaurant) {
+				// 	restaurantArr.push(restaurant);
+				// 	console.log(restaurantArr);
+				// });
 			})
-			.then(function(day) {
-				// .populate('hotel restaurants activities').exec())
-				console.log('day', day);
-				return day
-			}))
-		// .then()
-		 })
-		return Promise.all(promiseDays)
+			mongoose.Promise.all(restaurantArr).then(function(arr) {
+				foundTrip.days[index].restaurants = arr;
+			})
+		})
+		// console.log(foundTrip);
+		return foundTrip;
 	})
-	.then(function(days) {
-		console.log(days);
-		// console.log('this is tripArr[0].days', tripArr[0].days);
-		res.send(days)
+	.then(function(foundItAgain) {
+		console.log("It worked!")
+		res.json(foundItAgain);
 	})
-	.catch(next)
 })
+
+
+
+
+
+
+// //populate testing
+// router.get('/', function(req, res, next) {
+// 	var promiseDays = []
+// 	models.Trip.findOne({})
+// 	.then(function(trip) {
+// 		trip.days.forEach(function(day) {
+// 			// console.log('wots this', day._id)
+// 			console.log('before ze promise', day)
+// 			promiseDays.push(day.populate('restaurants'))
+// 		})
+// 		return promiseDays;
+// 	}).then(Promise.all)
+
+// 	.then(function(days) {
+// 		console.log(days);
+// 		// console.log('this is tripArr[0].days', tripArr[0].days);
+// 		res.send(days)
+// 	})
+// 	.catch(next)
+// })
 
 
 //working code

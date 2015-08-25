@@ -2,6 +2,9 @@ var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/tripplanner');
 mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
 
+var deepPopulate = require('mongoose-deep-populate')(mongoose);
+
+
 var placeSchema = new mongoose.Schema({
 	address: String,
 	city: String,
@@ -40,6 +43,12 @@ var daySchema = new mongoose.Schema({
 var tripSchema = new mongoose.Schema({
 	days: [daySchema]
 })
+
+// var tripSchema = new mongoose.Schema({
+// 	days: [{type: mongoose.Schema.Types.ObjectId, ref: 'Day'}]
+// })
+
+tripSchema.plugin(deepPopulate);
 
 module.exports = {
 	Place: mongoose.model('Place', placeSchema),
