@@ -11,13 +11,14 @@ router.get('/', function(req, res, next) {
 		var promiseDays = [];
 		trip.days.forEach(function(day) {
 			// console.log('wots this', day._id)
-			// console.log('before ze promise', day)
+			console.log('before ze promise', day)
 			promiseDays.push(models.Day.findOne({
 				_id: day._id
 			})
 			.then(function(day) {
 				// .populate('hotel restaurants activities').exec())
-				console.log(day);
+				console.log('day', day);
+				return day
 			}))
 		// .then()
 		 })
